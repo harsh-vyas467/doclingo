@@ -1,0 +1,10 @@
+flask
+google-generativeai
+PyMuPDF
+pdfplumber
+reportlab
+PyPDF2
+python-dotenv
+requests
+
+

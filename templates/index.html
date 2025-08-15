@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document Translator & Entity Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 450px;
+            width: 90%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }
+        input[type="file"], select {
+            width: 100%;
+            margin-top: 5px;
+            padding: 8px;
+        }
+        .radio-group {
+            margin-top: 10px;
+        }
+        .radio-group label {
+            display: block;
+            margin: 5px 0;
+        }
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        small {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Document Processing</h2>
+    <form method="POST" action="/" enctype="multipart/form-data">
+        
+        <label for="file">Upload PDF:</label>
+        <input type="file" name="file" id="file" accept="application/pdf" required>
+        <small>Max file size: 10MB</small>
+
+        <label for="target_language">Target Language:</label>
+        <select name="target_language" id="target_language" required>
+            {% for code, name in languages.items() %}
+                <option value="{{ code }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Mode:</label>
+        <div class="radio-group">
+            <label for="mode-json"><input type="radio" id="mode-json" name="mode" value="json" required> JSON only</label>
+            <label for="mode-pdf"><input type="radio" id="mode-pdf" name="mode" value="pdf"> Translated PDF only</label>
+            <label for="mode-both"><input type="radio" id="mode-both" name="mode" value="both"> Both JSON & PDF</label>
+        </div>
+
+        <button type="submit">Process Document</button>
+    </form>
+</div>
+
+</body>
+</html>

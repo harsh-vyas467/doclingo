@@ -1,0 +1,74 @@
+Prompt for JSON output only
+
+--
+prompt_json = f"""
+Please analyze the following document text.
+
+Instructions:
+1. Detect the original language automatically.
+2. Translate all text into {target_language}.
+3. Provide the result in this exact JSON format (valid JSON, no extra text outside the JSON):
+
+{{
+  "doc_type": "auto-detected document type (e.g., invoice, contract, letter, etc.)",
+  "metadata": {{
+    "detected_language": "ISO language code (e.g., 'ja', 'zh', 'ko', 'en')",
+    "confidence": float_between_0_and_1
+  }},
+  "entities": {{
+    // Extract all identifiable information as key-value pairs
+    // Use descriptive keys written in {target_language}
+  }},
+  "full_translated_text": "Full translation of the document in {target_language}"
+}}
+
+4. Preserve numbers, dates, and currency formats exactly as in the original.
+5. If any content is unreadable, replace it with "[unreadable]".
+6. Include all readable information from the document without summarizing or omitting.
+
+Document text:
+{text}
+"""
+
+
+---
+
+Prompt for Translation Only (Formatting Preserved)
+
+---
+
+prompt_translate = f"""
+You are a professional document translator.
+
+Instructions:
+1. Detect the original language automatically.
+2. Translate the entire document into {target_language}.
+3. Maintain the original document's formatting exactly:
+   - Keep the same page structure, fonts, sizes, and spacing.
+   - Preserve images, tables, charts, and any non-text elements.
+   - Keep numbers, dates, and currency values exactly as in the original.
+4. Only translate text; do not alter non-text elements.
+
+Document text:
+{text}
+"""
+
+
+---
+
+Prompt for Both
+
+We simply call both prompts sequentially — JSON first, PDF translation second.
+
+---
+
+if user_choice == "json":
+    # Call Gemini with prompt_json
+    # Save result as .json file
+
+elif user_choice == "pdf":
+    # Call Gemini with prompt_translate
+    # Rebuild PDF with translated text in same positions
+
+elif user_choice == "both":
+    # Call both prompts and save files
